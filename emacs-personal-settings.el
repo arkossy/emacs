@@ -48,7 +48,7 @@
 
 
 ;; ==== Screen Position
-(setq default-frame-alist '((left . 150) (top . 60) (width . 100) (height . 80) ))
+(setq default-frame-alist '((left . 150) (top . 60) (width . 175) (height . 80) ))
 
 
 ;; ==== Set Cursor to No Blink Status
@@ -66,3 +66,5 @@
 ;; ==== Enable Save Window Settings
 (desktop-save-mode 1)
 
+;; ==== Default Startup Folder for C-x C-f
+(setq default-directory "~/Documents/terminal-project/documentation" )
