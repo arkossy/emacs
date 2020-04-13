@@ -35,8 +35,8 @@
 
 
 ;; ==== Backup and autosave
-(defvar backup-dir (expand-file-name "/Users/apollo/Documents/emacs/_backup-emacs/"))
-(defvar autosave-dir (expand-file-name "/Users/apollo/Documents/emacs/_autosave-emacs/"))
+(defvar backup-dir (expand-file-name "/Users/apollo/.emacs.d/emacs-backups/"))
+(defvar autosave-dir (expand-file-name "/Users/apollo/.emacs.d/emacs-autosave/"))
 (setq backup-directory-alist (list (cons ".*" backup-dir)))
 (setq auto-save-list-file-prefix autosave-dir)
 (setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
@@ -48,7 +48,7 @@
 
 
 ;; ==== Screen Position
-(setq default-frame-alist '((left . 883) (top . 60) (width . 117) (height . 60) ))
+(setq default-frame-alist '((left . 150) (top . 60) (width . 100) (height . 80) ))
 
 
 ;; ==== Set Cursor to No Blink Status
@@ -61,4 +61,8 @@
 
 ;; ==== Show Relative Number Lines
 (setq display-line-numbers 'relative)
+
+
+;; ==== Enable Save Window Settings
+(desktop-save-mode 1)
 
