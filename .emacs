@@ -28,7 +28,7 @@
 ;; See my dotfiles: https://https://github.com/arkossy
 
 ;;; Code:
-;
+
 
 ;; Mandatory code by emacs
 (require 'package)
