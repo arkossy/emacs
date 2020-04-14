@@ -48,10 +48,10 @@
 
 
 ;; ==== Screen Position
-(setq default-frame-alist '((left . 150) (top . 60) (width . 175) (height . 80) ))
+(setq default-frame-alist '((left . 1000) (top . 60) (width . 110) (height . 80) ))
 
 
-;; ==== Set Cursor to No Blink Status
+;; ==== Set Cursor Blink Status 0 no, 1 yes
 (blink-cursor-mode 0)
 
 
@@ -66,5 +66,23 @@
 ;; ==== Enable Save Window Settings
 (desktop-save-mode 1)
 
+
 ;; ==== Default Startup Folder for C-x C-f
 (setq default-directory "~/Documents/terminal-project/documentation" )
+
+
+;; ==== Add theme directory
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+
+
+;; ==== Add Matching Parenthesis
+(show-paren-mode 1)
+
+
+;; ==== Theme Looper
+;; ==== https://github.com/myTerminal/theme-looper
+(require 'theme-looper)
+(theme-looper-reset-themes-selection)
+(global-set-key (kbd "C-}") 'theme-looper-enable-next-theme)
+(global-set-key (kbd "C-{") 'theme-looper-enable-previous-theme)
+(theme-looper-set-favorite-themes '(modus-operandi modus-vivendi wombat))
