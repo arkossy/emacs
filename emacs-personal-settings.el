@@ -48,7 +48,7 @@
 
 
 ;; ==== Screen Position
-(setq default-frame-alist '((left . 1000) (top . 60) (width . 110) (height . 80) ))
+(setq default-frame-alist '((left . 82) (top . 38) (width . 100) (height . 70)))
 
 
 ;; ==== Set Cursor Blink Status 0 no, 1 yes
@@ -64,25 +64,78 @@
 
 
 ;; ==== Enable Save Window Settings
-(desktop-save-mode 1)
+;(desktop-save-mode 1)
 
-
-;; ==== Default Startup Folder for C-x C-f
-(setq default-directory "~/Documents/terminal-project/documentation" )
-
-
-;; ==== Add theme directory
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
 
 ;; ==== Add Matching Parenthesis
 (show-paren-mode 1)
 
 
+;; ==== Sentences end with a single space
+(setq sentence-end-double-space nil)
+
+
+
 ;; ==== Theme Looper
 ;; ==== https://github.com/myTerminal/theme-looper
 (require 'theme-looper)
-(theme-looper-reset-themes-selection)
 (global-set-key (kbd "C-}") 'theme-looper-enable-next-theme)
-(global-set-key (kbd "C-{") 'theme-looper-enable-previous-theme)
-(theme-looper-set-favorite-themes '(modus-operandi modus-vivendi wombat))
+(theme-looper-set-favorite-themes '(afternoon zenburn modus-operandi modus-vivendi))
+
+
+;; ==== Olivetti Mode
+;; ==== https://github.com/myTerminal/theme-looper
+(require 'olivetti)
+(global-set-key (kbd "C-{") 'olivetti-mode)
+
+
+;; ==== Cycle through buffers
+(global-set-key [C-tab] 'next-buffer)
+(global-set-key [C-S-tab] 'previous-buffer)
+
+
+;; ==== Set TAB settings
+(global-set-key (kbd "TAB") 'self-insert-command)
+
+
+;; ==== Default Startup Folder for C-x C-f
+(setq default-directory "~/Documents/project-unix" )
+
+
+;; ==== Add theme directory
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+
+
+;; ==== Keybinding Agenda
+(global-set-key (kbd "C-c a") 'org-agenda)
+
+
+;; ==== Set maximum indentation for description lists
+(setq org-list-description-max-indent 5)
+
+
+;; ==== Prevent demoting heading also shifting text inside sections
+(setq org-adapt-indentation nil)
+
+
+;; ==== No bell sound
+(setq ring-bell-function 'ignore)
+
+
+;; ==== Fill paragraphs with a single space after each period
+(setq sentence-end-double-space nil)
+
+
+;; ==== Add folder to org agenda scanning
+(setq org-agenda-files '("~/Documents/project-unix"))
+
+;; ==== Add rainbow delimiter - parenthesis colors
+;; ==== https://github.com/Fanael/rainbow-delimiters
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+;; ==== Prot Theme Settings
+;;(load-theme 'modus-operandi t)
+;;(setq modus-operandi-theme-rainbow-headings t)
+;;(setq modus-operandi-theme-section-headings t)
+
