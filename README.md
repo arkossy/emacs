@@ -24,7 +24,5 @@ automatically called by '.emacs' with the following code snippets:
 
 
 By using 'babel' I can use literate programming technique by combining org comments
-with embeded source codes snippets.
-
-With this approach I can separate my own settings from the ones created 
+with embeded source codes snippets. With this approach I can separate my own settings from the ones created 
 automatically by emacs (or by M-x customize command)
