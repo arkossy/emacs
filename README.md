@@ -18,5 +18,4 @@ The 'emacs-custom-settings.el' and 'emacs-personal-settings.el' files are automa
 
 By using 'babel' I can use literate programming technique by combining org comments with embeded source codes snippets. With this approach I can separate my own settings from the ones created automatically by emacs (or by M-x customize command).
 
-*Note: My emacs code structure has been influenced by learning from
-Protesilaos Stavrou <info@protesilaos.com>.*
+*Note: My emacs code structure has been influenced by learning from Protesilaos Stavrou <info@protesilaos.com>*
