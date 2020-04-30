@@ -11,11 +11,14 @@ The 'emacs-custom-settings.el' and 'emacs-personal-settings.el' files are
 automatically called by '.emacs' with the following code snippets:
 
 (setq custom-file "~/.emacs.d/emacs-custom-settings.el")
+
 (load-file custom-file)
 
 ;; Babel translates the emacs-personal-settings.org to emacs-personal-settings.el
 (require 'org)
+
 (setq vc-follow-symlinks t)
+
 (org-babel-load-file (expand-file-name "~/.emacs.d/emacs-personal-settings.org"))
 
 By using 'babel' I can use literate programming technique by combining org comments
