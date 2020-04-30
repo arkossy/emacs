@@ -18,7 +18,7 @@ The 'emacs-custom-settings.el' and 'emacs-personal-settings.el' files are automa
 (org-babel-load-file (expand-file-name "~/.emacs.d/emacs-personal-settings.org"))
 </code></pre>
 
-*Note: My emacs code structure has been influenced by:
-- Protesilaos Stavrou https://protesilaos.com
-- Bernt Hansen http://doc.norang.ca/org-mode.html#HowToUseThisDocument
-- Rainer König https://www.youtube.com/watch?v=sQS06Qjnkcc&list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE*
+Note: My emacs code structure has been influenced by learning from:
+- [Protesilaos Stavrou](https://protesilaos.com)
+- [Bernt Hansen](http://doc.norang.ca/org-mode.html#HowToUseThisDocument)
+- [Rainer König](https://www.youtube.com/watch?v=sQS06Qjnkcc&list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE)
