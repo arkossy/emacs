@@ -63,10 +63,6 @@
   (require 'use-package))
 
 
-;; Create a separate custom file for system settings
-;; This file needs to be created separately by the user
-(setq custom-file "~/.emacs.d/emacs-custom-settings.el")
-(load-file custom-file)
 
 (defconst user-init-dir
   (cond ((boundp 'user-emacs-directory)
@@ -75,13 +71,26 @@
          user-init-directory)
         (t "~/.emacs.d/")))
 
+
 (defun load-user-file (file)
   (interactive "f")
   "Load a file in current user's configuration directory"
   (load-file (expand-file-name file user-init-dir)))
 
 
-;; Create a separate personal file for individual settings
-;; Multiple file can be loaded if needed
+
+;; Create a separate custom file for system settings
 ;; This file needs to be created separately by the user
-(load-user-file  "~/.emacs.d/emacs-personal-settings.el")
+(setq custom-file "~/.emacs.d/emacs-custom-settings.el")
+(load-file custom-file)
+
+
+;; Babel translates the emacs-personal-settings.org to emacs-personal-settings.el
+(require 'org)
+(setq vc-follow-symlinks t)
+(org-babel-load-file (expand-file-name "~/.emacs.d/emacs-personal-settings.org"))
+
+
+
+
+
