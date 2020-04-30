@@ -4,10 +4,6 @@ These files are my settings initialisation files for Emacs.
 The objective was to separate the compulsory boot code from 
 the custom settings and personal settings.
 
-*Note: My emacs code structure has been influenced by learning from
-Protesilaos Stavrou <info@protesilaos.com>.*
-
-
 The 'emacs-custom-settings.el' and 'emacs-personal-settings.el' files are
 automatically called by '.emacs' with the following code snippets:
 
@@ -26,3 +22,6 @@ automatically called by '.emacs' with the following code snippets:
 By using 'babel' I can use literate programming technique by combining org comments
 with embeded source codes snippets. With this approach I can separate my own settings from the ones created 
 automatically by emacs (or by M-x customize command)
+
+*Note: My emacs code structure has been influenced by learning from
+Protesilaos Stavrou <info@protesilaos.com>.*
