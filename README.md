@@ -1,10 +1,11 @@
 # Personal GNU Emacs configuration files
 
 These files are my settings initialisation files for Emacs. 
-The reason I created this file is that I wanted to separate the 
-compulsory boot code from the custom settings and personal settings.
-My emacs code structure has been influenced by learning from
-Protesilaos Stavrou <info@protesilaos.com>.
+The objective was to separate the compulsory boot code from 
+the custom settings and personal settings.
+
+*Note: My emacs code structure has been influenced by learning from
+Protesilaos Stavrou <info@protesilaos.com>.*
 
 
 The 'emacs-custom-settings.el' and 'emacs-personal-settings.el' files are
