@@ -1,4 +1,4 @@
-# Personal GNU Emacs configuration files
+# GNU Emacs configuration files
 
 These files are my main initialisation files for Emacs. My objective was to separate the compulsory boot code from the custom settings and personal settings.
 
