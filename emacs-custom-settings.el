@@ -26,9 +26,6 @@
 ;; Protesilaos Stavrou <info@protesilaos.com>.
 
 ;; See my dotfiles: https://https://github.com/arkossy
-
-;;; Code:
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -37,8 +34,10 @@
  '(custom-enabled-themes (quote (modus-operandi)))
  '(custom-safe-themes
    (quote
-    ("d2af374d72f412b04bbad533072f1987674453ce8efae8c88725fcd9c246327b" "fea393691d7d724bba1616be7b3e357651d9236da4bd2d5856dbb2dcc9dbf3d7" "c04daf6d2ae13e1535f56badd1d2c3ce6fcb230424ca1facf0a9ae8d17c214f2" default)))
- '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e"))))
+    ("d2af374d72f412b04bbad533072f1987674453ce8efae8c88725fcd9c246327b" "fb213c95bb4c2d8d9259580ae8063ce06a7094a0ccf7a85b1a53b56c5b4d9f1c" default)))
+ '(package-selected-packages
+   (quote
+    (which-key zenburn-theme use-package theme-looper sublime-themes solarized-theme rainbow-delimiters olivetti multiple-cursors multi-term modus-vivendi-theme modus-operandi-theme leuven-theme ivy autothemer auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

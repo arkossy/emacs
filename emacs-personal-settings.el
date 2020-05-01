@@ -26,8 +26,6 @@
 
 (setq sentence-end-double-space nil)
 
-;(setq display-line-numbers 'relative)
-
 (defvar backup-dir (expand-file-name "/Users/apollo/.emacs.d/emacs-backups/"))
 (defvar autosave-dir (expand-file-name "/Users/apollo/.emacs.d/emacs-autosave/"))
 (setq backup-directory-alist (list (cons ".*" backup-dir)))
@@ -50,15 +48,13 @@
 ;Avoid certain directories:
 ;(setq ido-ignore-directories '("Applications/" "Library/" "Movies/" "Music/" "Pictures/" "Public/"))
 
+(set-face-attribute 'fringe nil :background nil)
+
 (require 'theme-looper)
 (global-set-key (kbd "C-}") 'theme-looper-enable-next-theme)
 (theme-looper-set-favorite-themes '(modus-operandi modus-vivendi))
 
-(set-face-attribute 'fringe nil :background nil)
-
 (desktop-save-mode 1)
-
-;; (setq default-frame-alist '((left . 82) (top . 38) (width . 100) (height . 70)))
 
 ;; Use CMD+arrows
 (windmove-default-keybindings 'super)
@@ -82,15 +78,7 @@
 
 (setq org-adapt-indentation nil)
 
-(defun my/org-add-ids-to-headlines-in-file ()
-  "Add ID properties to all headlines in the current file which
-do not already have one."
-  (interactive)
-  (org-map-entries 'org-id-get-create))
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (add-hook 'before-save-hook 'my/org-add-ids-to-headlines-in-file nil 'local)))
+(global-set-key (kbd "<f5>") 'org-id-get-create)
 
 (defun my/copy-id-to-clipboard() "Copy the ID property value to killring,
 if no ID is there then create a new unique ID. 
@@ -106,11 +94,7 @@ text and copying to the killring."
 	 (message "Copied %s to killring (clipboard)" mytmpid)
        ))
 
-(global-set-key (kbd "<f5>") 'my/copy-id-to-clipboard)
-
-;(setq org-priority-faces '((?A . (:foreground "red" :weight 'bold))
-;                           (?B . (:foreground "orange"))
-;                           (?C . (:foreground "blue"))))
+(global-set-key (kbd "<f6>") 'my/copy-id-to-clipboard)
 
 (setq org-directory "~/Documents/project-org")
 
@@ -134,25 +118,3 @@ text and copying to the killring."
 (setq org-use-fast-todo-selection t)
 
 (global-set-key (kbd "C-c c") 'org-capture)
-
-;(setq org-default-notes-file "~/Documents/project-org/org-inbox.org")
-
-;(setq org-todo-keywords
-;      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-;              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
-
-;; Moving a task to CANCELLED adds a CANCELLED tag
-;; Moving a task to WAITING adds a WAITING tag
-;; Moving a task to HOLD adds WAITING and HOLD tags
-;; Moving a task to a done state removes WAITING and HOLD tags
-;; Moving a task to TODO removes WAITING, CANCELLED, and HOLD tags
-;; Moving a task to NEXT removes WAITING, CANCELLED, and HOLD tags
-;; Moving a task to DONE removes WAITING, CANCELLED, and HOLD tags
-;(setq org-todo-state-tags-triggers
-;      (quote (("CANCELLED" ("CANCELLED" . t))
-;              ("WAITING" ("WAITING" . t))
-;              ("HOLD" ("WAITING") ("HOLD" . t))
-;              (done ("WAITING") ("HOLD"))
-;              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-;              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-;              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
