@@ -1,10 +1,9 @@
-#+TITLE: Emacs Personal Settings in Org-mode
+#+TITLE: GNU Emacs package configuration file
 #+AUTHOR: Zsolt Arkossy
 #+EMAIL: zsolt@arkossy.com
-#+DATE: 2020-04-26 
 
 
-* Commentary Notes 
+* Commentary Notes
 Personal GNU Emacs configuration file.
 
 Copyright (c) 2020 Zsolt Arkossy <zsolt@arkossy.com>
@@ -24,8 +23,8 @@ along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
 Commentary:
 
-This file is the personal settings initialisation file for Emacs. 
-The reason I created this file is that I wanted to separate the 
+This file is the personal settings initialisation file for Emacs.
+The reason I created this file is that I wanted to separate the
 compulsory boot code from the custom settings and personal settings.
 My emacs code structure has been influenced by learning from
 Protesilaos Stavrou <info@protesilaos.com>.
@@ -43,6 +42,19 @@ Code:
 (setq inhibit-startup-screen t)
 #+END_SRC
 
+** No Scroll bar
+#+BEGIN_SRC emacs-lisp
+(toggle-scroll-bar -1) 
+#+END_SRC
+
+** Menubar
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode 1)
+#+END_SRC
+** No Toolbar
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1)
+#+END_SRC
 ** Always rebuild init
 #+BEGIN_SRC emacs-lisp
 (use-package emacs
@@ -61,12 +73,29 @@ Code:
 (put 'downcase-region 'disabled nil)
 #+END_SRC
 
-** Set TAB settings
+** [inactive] Set TAB settings
+;#+BEGIN_SRC emacs-lisp
+;(global-set-key (kbd "TAB") 'self-insert-command)
+;#+END_SRC
+** [inactive] Show Whitespaces
+;Link: https://www.emacswiki.org/emacs/EightyColumnRule
+;#+BEGIN_SRC emacs-lisp
+; (require 'whitespace)
+; (setq whitespace-style '(face empty tabs lines-tail trailing))
+; (global-whitespace-mode t)
+;#+END_SRC
+** [inactive] Column Marker at 80
+;Link: https://www.emacswiki.org/emacs/ColumnMarker
+;#+BEGIN_SRC emacs-lisp
+;(require 'column-marker)
+;(add-hook 'foo-mode-hook (lambda () (interactive) (column-marker-1 80)))
+;#+END_SRC
+** Sentences end with a single space
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "TAB") 'self-insert-command)
+(setq sentence-end-double-space nil)
 #+END_SRC
 
-** Sentences end with a single space
+** Fill paragraphs with a single space after each period
 #+BEGIN_SRC emacs-lisp
 (setq sentence-end-double-space nil)
 #+END_SRC
@@ -76,7 +105,7 @@ Code:
 (blink-cursor-mode 0)
 #+END_SRC
 
-** Set Text Wrapping 
+** Set Text Wrapping
 #+BEGIN_SRC emacs-lisp
 (global-visual-line-mode t)
 #+END_SRC
@@ -91,14 +120,9 @@ Code:
 (setq ring-bell-function 'ignore)
 #+END_SRC
 
-** Fill paragraphs with a single space after each period
-#+BEGIN_SRC emacs-lisp
-(setq sentence-end-double-space nil)
-#+END_SRC
-
 ** [inactive] Show Relative Number Lines
 ;#+BEGIN_SRC emacs-lisp
-(setq display-line-numbers 'relative)
+;(setq display-line-numbers 'relative)
 ;#+END_SRC
 
 
@@ -124,7 +148,7 @@ Code:
 
 ** Default Startup Folder for C-x C-f
 #+BEGIN_SRC emacs-lisp
-(setq default-directory "~/Documents/project-org")
+(setq default-directory "~/Documents/project-emacs")
 #+END_SRC
 
 ** IDO - Interactively Do Things
@@ -144,7 +168,7 @@ Link:  https://www.emacswiki.org/emacs/InteractivelyDoThings
 (add-to-list 'ido-ignore-files ".pia_manager_crash.log")
 
 ;Avoid certain directories:
-;(setq ido-ignore-directories '("Applications/" "Library/" "Movies/" "Music/" "Pictures/" "Public/"))
+;(setq ido-ignore-directories '("Applications/" "Library/" "Movies/" "Music/" "Pictures/"))
 
 #+END_SRC
 
@@ -152,8 +176,10 @@ Link:  https://www.emacswiki.org/emacs/InteractivelyDoThings
 
 
 
-
 * THEMES
+:PROPERTIES:
+:ID:       42CD2A46-1A10-4794-A9A9-E6525F9BF410
+:END:
 ** Fringe color
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'fringe nil :background nil)
@@ -161,15 +187,121 @@ Link:  https://www.emacswiki.org/emacs/InteractivelyDoThings
 
 #+RESULTS:
 
-** [inactive] Theme Looper
+ 
+ 
+** Theme Looper
+:PROPERTIES:
+:ID:       55511E70-1AF7-40CB-BB0D-07EA69906A80
+:END:
 Link: https://github.com/myTerminal/theme-looper
 #+BEGIN_SRC emacs-lisp
 (require 'theme-looper)
+(theme-looper-reset-themes-selection)
 (global-set-key (kbd "C-}") 'theme-looper-enable-next-theme)
 (theme-looper-set-favorite-themes '(modus-operandi modus-vivendi))
 #+END_SRC
- 
 
+
+
+
+** [inactive] Modus Theme Settings
+
+;#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (setq custom-safe-themes t)           ; Due to my dev needs
+
+  ;; The variables do not reveal my preferences.  I am always testing
+  ;; things
+  (defun prot/modus-operandi ()
+    "Enable some Modus Operandi variables and load the theme.
+This is used internally by `prot/modus-themes-toggle'."
+    (setq modus-operandi-theme-slanted-constructs nil
+          modus-operandi-theme-bold-constructs nil
+          modus-operandi-theme-visible-fringes nil
+          modus-operandi-theme-3d-modeline t
+          modus-operandi-theme-subtle-diffs nil
+          modus-operandi-theme-distinct-org-blocks t
+          modus-operandi-theme-proportional-fonts nil
+          modus-operandi-theme-rainbow-headings nil
+          modus-operandi-theme-section-headings t
+          modus-operandi-theme-scale-headings t
+          modus-operandi-theme-scale-1 1.125
+          modus-operandi-theme-scale-2 1.266
+          modus-operandi-theme-scale-3 1.424
+          modus-operandi-theme-scale-4 1.602
+          modus-operandi-theme-scale-5 1.802)
+    ;;;; NOTE check the project's README for the following one.  Only
+    ;;;; for advanced usage.
+    ;; modus-operandi-theme-override-colors-alist
+    (load-theme 'modus-operandi t))
+
+  (defun prot/modus-vivendi ()
+    "Enable some Modus Vivendi variables and load the theme.
+This is used internally by `prot/modus-themes-toggle'."
+    (setq modus-vivendi-theme-slanted-constructs nil
+          modus-vivendi-theme-bold-constructs nil
+          modus-vivendi-theme-visible-fringes nil
+          modus-vivendi-theme-3d-modeline t
+          modus-vivendi-theme-subtle-diffs nil
+          modus-vivendi-theme-distinct-org-blocks t
+          modus-vivendi-theme-proportional-fonts nil
+          modus-vivendi-theme-rainbow-headings nil
+          modus-vivendi-theme-section-headings t
+          modus-vivendi-theme-scale-headings t
+          modus-vivendi-theme-scale-1 1.125
+          modus-vivendi-theme-scale-2 1.266
+          modus-vivendi-theme-scale-3 1.424
+          modus-vivendi-theme-scale-4 1.602
+          modus-vivendi-theme-scale-5 1.802)
+    ;;;; NOTE check the project's README for the following one.  Only
+    ;;;; for advanced usage.
+    ;; modus-vivendi-theme-override-colors-alist
+    (load-theme 'modus-vivendi t))
+
+  (defun prot/modus-themes-custom ()
+    "Override faces by accessing the theme colour variables.
+Run this via `contrib/after-load-theme-hook'."
+    (cond
+     ((eq (car custom-enabled-themes) 'modus-operandi)
+      (modus-operandi-theme-with-color-variables
+        (custom-theme-set-faces
+         'modus-operandi
+         `(cursor ((,class (:background ,blue-alt)))))))
+     ((eq (car custom-enabled-themes) 'modus-vivendi)
+      (modus-vivendi-theme-with-color-variables
+        (custom-theme-set-faces
+         'modus-vivendi
+         `(cursor ((,class (:background ,red-alt)))))))))
+
+  (defvar contrib/after-load-theme-hook nil
+    "Hook run after a color theme is loaded using `load-theme'.")
+
+  (defun contrib/run-after-load-theme-hook (&rest _)
+    "Run `contrib/after-load-theme-hook'."
+    (run-hooks 'contrib/after-load-theme-hook))
+
+  (advice-add #'load-theme :after #'contrib/run-after-load-theme-hook)
+
+  (defvar prot/modus-themes-toggle-hook nil
+    "Hook that runs after `prot/modus-themes-toggle' is invoked.")
+
+  (defun prot/modus-themes-toggle ()
+    "Toggle between `prot/modus-operandi' and `prot/modus-vivendi'.
+Also run `prot/modus-themes-toggle-hook'."
+    (interactive)
+    (if (eq (car custom-enabled-themes) 'modus-operandi)
+        (progn
+          (prot/modus-vivendi)
+          (disable-theme 'modus-operandi))
+      (prot/modus-operandi)
+      (disable-theme 'modus-vivendi))
+    (run-hooks 'prot/modus-themes-toggle-hook))
+
+  :bind ("C-}" . prot/modus-themes-toggle)
+  :hook ((after-init-hook . prot/modus-operandi)
+         (contrib/after-load-theme-hook . prot/modus-themes-custom)))
+;#+end_src
 
 
 * WINDOW MANAGEMENT
@@ -180,6 +312,8 @@ Link: https://github.com/myTerminal/theme-looper
 #+END_SRC
 
 ** Windmove - Move between windows
+Source: Emacs built in function
+Info: https://www.emacswiki.org/emacs/WindMove
 #+BEGIN_SRC emacs-lisp
 ;; Use CMD+arrows
 (windmove-default-keybindings 'super)
@@ -192,6 +326,26 @@ Link: https://github.com/myTerminal/theme-looper
 (setq default-frame-alist '((left . 82) (top . 38) (width . 100) (height . 70)))
 ;#+END_SRC
 
+** Window Splitting Keybindings
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<s-f1>") 'split-window-below)
+(global-set-key (kbd "<s-f2>") 'split-window-right)
+(global-set-key (kbd "<s-f3>") 'balance-windows)
+(global-set-key (kbd "<s-f4>") 'delete-other-windows)
+(global-set-key (kbd "<s-f5>") 'delete-window)
+#+END_SRC
+
+** Window Rotate
+Source: MELPA ('rotate')
+Link: https://github.com/daichirata/emacs-rotate/tree/091b5ac4fc310773253efb317e3dbe8e46959ba6
+#+BEGIN_SRC emacs-lisp
+(require 'rotate)
+(global-set-key (kbd "<s-f9>") 'rotate-window)
+(global-set-key (kbd "<s-f10>") 'rotate:even-horizontal)
+(global-set-key (kbd "<s-f11>") 'rotate-layout)
+(global-set-key (kbd "<s-f12>") 'rotate:tiled)
+#+END_SRC
+
 
 
 
@@ -200,10 +354,30 @@ Link: https://github.com/myTerminal/theme-looper
 * EDITING
 
 ** Olivetti Mode
-Link: https://github.com/myTerminal/theme-looper
+Link: https://github.com/rnkn/olivetti
 #+BEGIN_SRC emacs-lisp
-(require 'olivetti)
-(global-set-key (kbd "C-{") 'olivetti-mode)
+(use-package olivetti
+  :ensure
+  :diminish
+  :config
+  (setq olivetti-body-width 100)
+  (setq olivetti-minimum-body-width 80)
+  (setq olivetti-recall-visual-line-mode-entry-state t)
+
+  (defun prot/olivetti-mode ()
+    "Toggle `olivetti-mode' with additional parameters Fringes
+are disabled for the current window.  For the font-related
+changes see `prot/variable-pitch-mode'."
+    (interactive)
+    (if (bound-and-true-p olivetti-mode)
+        (progn
+          (olivetti-mode -1)
+          (set-window-fringes (selected-window) nil) ; Use default width
+          (prot/variable-pitch-mode))
+      (olivetti-mode 1)
+      (set-window-fringes (selected-window) 0 0)
+      (prot/variable-pitch-mode (prot/reading-fonts))))
+  :bind ("C-{" . prot/olivetti-mode))
 #+END_SRC
 
 ** Multiple Cursor
@@ -223,15 +397,6 @@ Link: https://github.com/auto-complete/auto-complete
 #+BEGIN_SRC emacs-lisp
 (ac-config-default)
 #+END_SRC
-** Which key
-#+BEGIN_SRC emacs-lisp
-(use-package which-key
-:ensure t
-:init
-(which-key-mode))
-#+END_SRC
-
-
 
 
 
@@ -249,7 +414,6 @@ Link: https://github.com/auto-complete/auto-complete
 #+BEGIN_SRC emacs-lisp
 (setq org-adapt-indentation nil)
 #+END_SRC
-
 
 
 
@@ -317,12 +481,12 @@ text and copying to the killring."
 
 * ORG MODE - BERNT HANSEN SETTINGS
     
-** Hansen Link 
+** Hansen Link
 http://doc.norang.ca/org-mode.html#HowToUseThisDocument
 
 ** Set org directory
 #+BEGIN_SRC emacs-lisp
-(setq org-directory "~/Documents/project-org")
+(setq org-directory "~/Documents/project-emacs")
 #+END_SRC
 
 ** org-mode is default for '.org' files
@@ -346,7 +510,7 @@ http://doc.norang.ca/org-mode.html#HowToUseThisDocument
 
 ** List of Agenda files to be scanned
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-files (list "~/Documents/project-org"))
+(setq org-agenda-files (list "~/Documents/project-emacs"))
 #+END_SRC
 - If the agenda is not showing up then: 'C-c ['
 
@@ -373,7 +537,7 @@ http://doc.norang.ca/org-mode.html#HowToUseThisDocument
 
 ** [inactive] Set default inbox file
 ;#+BEGIN_SRC emacs-lisp
-(setq org-default-notes-file "~/Documents/project-org/org-inbox.org")
+(setq org-default-notes-file "~/Documents/project-emacs/inbox.org")
 ;#+END_SRC
 
 ** [inactive] Keywords structure
@@ -401,3 +565,19 @@ Moving a task to DONE removes WAITING, CANCELLED, and HOLD tags
               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 ;#+END_SRC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

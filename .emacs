@@ -29,7 +29,6 @@
 
 ;;; Code:
 
-
 ;; Mandatory code by emacs
 (require 'package)
 
@@ -52,7 +51,7 @@
 
 
 ;; Configure `use-package' prior to loading it.
-;(eval-and-compile
+(eval-and-compile
   (setq use-package-always-ensure nil)
   (setq use-package-always-defer nil)
   (setq use-package-always-demand nil)
@@ -86,11 +85,6 @@
 
 
 ;; Babel translates the emacs-personal-settings.org to emacs-personal-settings.el
-(require 'org)
+;(require 'org)
 (setq vc-follow-symlinks t)
 (org-babel-load-file (expand-file-name "~/.emacs.d/emacs-personal-settings.org"))
-
-
-
-
-

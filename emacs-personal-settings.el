@@ -1,5 +1,11 @@
 (setq inhibit-startup-screen t)
 
+(toggle-scroll-bar -1)
+
+(menu-bar-mode 1)
+
+(tool-bar-mode -1)
+
 (use-package emacs
   :config
   (defun apollo/delete-emacs-init ()
@@ -12,7 +18,7 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-(global-set-key (kbd "TAB") 'self-insert-command)
+(setq sentence-end-double-space nil)
 
 (setq sentence-end-double-space nil)
 
@@ -24,8 +30,6 @@
 
 (setq ring-bell-function 'ignore)
 
-(setq sentence-end-double-space nil)
-
 (defvar backup-dir (expand-file-name "/Users/apollo/.emacs.d/emacs-backups/"))
 (defvar autosave-dir (expand-file-name "/Users/apollo/.emacs.d/emacs-autosave/"))
 (setq backup-directory-alist (list (cons ".*" backup-dir)))
@@ -34,7 +38,7 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
-(setq default-directory "~/Documents/project-org")
+(setq default-directory "~/Documents/project-emacs")
 
 (require 'ido)
 (ido-mode 1)
@@ -46,11 +50,12 @@
 (add-to-list 'ido-ignore-files ".pia_manager_crash.log")
 
 ;Avoid certain directories:
-;(setq ido-ignore-directories '("Applications/" "Library/" "Movies/" "Music/" "Pictures/" "Public/"))
+;(setq ido-ignore-directories '("Applications/" "Library/" "Movies/" "Music/" "Pictures/"))
 
 (set-face-attribute 'fringe nil :background nil)
 
 (require 'theme-looper)
+(theme-looper-reset-themes-selection)
 (global-set-key (kbd "C-}") 'theme-looper-enable-next-theme)
 (theme-looper-set-favorite-themes '(modus-operandi modus-vivendi))
 
@@ -61,8 +66,40 @@
 ;; Don't cycle around at edges (nil), enabled (t)
 (setq windmove-wrap-around nil)
 
-(require 'olivetti)
-(global-set-key (kbd "C-{") 'olivetti-mode)
+(global-set-key (kbd "<s-f1>") 'split-window-below)
+(global-set-key (kbd "<s-f2>") 'split-window-right)
+(global-set-key (kbd "<s-f3>") 'balance-windows)
+(global-set-key (kbd "<s-f4>") 'delete-other-windows)
+(global-set-key (kbd "<s-f5>") 'delete-window)
+
+(require 'rotate)
+(global-set-key (kbd "<s-f9>") 'rotate-window)
+(global-set-key (kbd "<s-f10>") 'rotate:even-horizontal)
+(global-set-key (kbd "<s-f11>") 'rotate-layout)
+(global-set-key (kbd "<s-f12>") 'rotate:tiled)
+
+(use-package olivetti
+  :ensure
+  :diminish
+  :config
+  (setq olivetti-body-width 100)
+  (setq olivetti-minimum-body-width 80)
+  (setq olivetti-recall-visual-line-mode-entry-state t)
+
+  (defun prot/olivetti-mode ()
+    "Toggle `olivetti-mode' with additional parameters Fringes
+are disabled for the current window.  For the font-related
+changes see `prot/variable-pitch-mode'."
+    (interactive)
+    (if (bound-and-true-p olivetti-mode)
+        (progn
+          (olivetti-mode -1)
+          (set-window-fringes (selected-window) nil) ; Use default width
+          (prot/variable-pitch-mode))
+      (olivetti-mode 1)
+      (set-window-fringes (selected-window) 0 0)
+      (prot/variable-pitch-mode (prot/reading-fonts))))
+  :bind ("C-{" . prot/olivetti-mode))
 
 ;; on error delete the content of: .mc-lists.el
 (require 'multiple-cursors)
@@ -96,7 +133,7 @@ text and copying to the killring."
 
 (global-set-key (kbd "<f6>") 'my/copy-id-to-clipboard)
 
-(setq org-directory "~/Documents/project-org")
+(setq org-directory "~/Documents/project-emacs")
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\)$" . org-mode))
 (require 'org)
@@ -105,7 +142,7 @@ text and copying to the killring."
 
 (global-set-key "\C-ca" 'org-agenda)
 
-(setq org-agenda-files (list "~/Documents/project-org"))
+(setq org-agenda-files (list "~/Documents/project-emacs"))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "#3a70af" :weight bold)
