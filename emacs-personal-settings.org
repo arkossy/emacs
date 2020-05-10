@@ -1,9 +1,17 @@
-#+TITLE: GNU Emacs package configuration file
+#+TITLE: Zsolt Arkossy Personal GNU Emacs package configuration file
 #+AUTHOR: Zsolt Arkossy
 #+EMAIL: zsolt@arkossy.com
+#+STARTUP: noshoweverything
 
+* Configuration
+:PROPERTIES:
+:ID:       507E2FCD-CE3E-4BBB-90FA-AE74C690E513
+:END:
 
-* Commentary Notes
+** About this file
+:PROPERTIES:
+:ID:       917D3479-06EC-4DC1-AB7F-84CF5A01FCBB
+:END:
 Personal GNU Emacs configuration file.
 
 Copyright (c) 2020 Zsolt Arkossy <zsolt@arkossy.com>
@@ -31,31 +39,43 @@ Protesilaos Stavrou <info@protesilaos.com>.
 
 See my dotfiles: https://https://github.com/arkossy
 
-Code:
-
-
-
-
-* GENERIC COMMANDS
-** No Initial Splash Screen
-#+BEGIN_SRC emacs-lisp 
-(setq inhibit-startup-screen t)
-#+END_SRC
-
-** No Scroll bar
+** Basic Setup
+:PROPERTIES:
+:ID:       B11E22E8-1E9F-4709-A443-CC7F17F7ECBF
+:END:
+*** Personal information
+:PROPERTIES:
+:ID:       822D2D35-8AD4-455E-90B7-C7A6468BC45F
+:END:
 #+BEGIN_SRC emacs-lisp
-(toggle-scroll-bar -1) 
+  (setq user-full-name "Zsolt Arkossy"
+	user-mail-address "zsolt@arkossy.com")
 #+END_SRC
 
-** Menubar
+*** Base Settings
+:PROPERTIES:
+:ID:       2BFE16DC-65C2-4286-B63B-D604038C8CDC
+:END:
 #+BEGIN_SRC emacs-lisp
-(menu-bar-mode 1)
+(setq inhibit-startup-screen t) ; No Splash Screen
+(menu-bar-mode 1) ; No Menu Mar
+(tool-bar-mode -1) ; No Tool Bar
+(toggle-scroll-bar -1) ; No Scroll Bar
+(setq ring-bell-function 'ignore) ; No Bell Sound
+(blink-cursor-mode 0) ; No Cursor Blink
+(fset 'yes-or-no-p 'y-or-n-p) ; Set Yes/No Action
+(column-number-mode 1) ; Show Column Number in Mode Line
+(show-paren-mode 1) ; Set Matching Parenthesis
 #+END_SRC
-** No Toolbar
-#+BEGIN_SRC emacs-lisp
-(tool-bar-mode -1)
-#+END_SRC
-** Always rebuild init
+
+** File security
+:PROPERTIES:
+:ID:       E6ED86EB-9A5E-4C09-8949-DE5E63C5D9E7
+:END:
+*** Init Rebuild
+:PROPERTIES:
+:ID:       6FCDA26B-2E44-4997-9290-53CD977C8F37
+:END:
 #+BEGIN_SRC emacs-lisp
 (use-package emacs
   :config
@@ -63,133 +83,51 @@ Code:
     (interactive)
     (let ((configs "~/.emacs.d/emacs-personal-settings.el"))
       (when configs
-        (delete-file configs))))
+	(delete-file configs))))
   :hook (kill-emacs . apollo/delete-emacs-init))
 #+END_SRC
 
-** C-u C-l Command Enablement
-#+BEGIN_SRC emacs-lisp
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-#+END_SRC
-
-** [inactive] Set TAB settings
-;#+BEGIN_SRC emacs-lisp
-;(global-set-key (kbd "TAB") 'self-insert-command)
-;#+END_SRC
-** [inactive] Show Whitespaces
-;Link: https://www.emacswiki.org/emacs/EightyColumnRule
-;#+BEGIN_SRC emacs-lisp
-; (require 'whitespace)
-; (setq whitespace-style '(face empty tabs lines-tail trailing))
-; (global-whitespace-mode t)
-;#+END_SRC
-** [inactive] Column Marker at 80
-;Link: https://www.emacswiki.org/emacs/ColumnMarker
-;#+BEGIN_SRC emacs-lisp
-;(require 'column-marker)
-;(add-hook 'foo-mode-hook (lambda () (interactive) (column-marker-1 80)))
-;#+END_SRC
-** Sentences end with a single space
-#+BEGIN_SRC emacs-lisp
-(setq sentence-end-double-space nil)
-#+END_SRC
-
-** Fill paragraphs with a single space after each period
-#+BEGIN_SRC emacs-lisp
-(setq sentence-end-double-space nil)
-#+END_SRC
-
-** Set Cursor Blink Status 0 no, 1 yes
-#+BEGIN_SRC emacs-lisp
-(blink-cursor-mode 0)
-#+END_SRC
-
-** Set Text Wrapping
-#+BEGIN_SRC emacs-lisp
-(global-visual-line-mode t)
-#+END_SRC
-
-** Add Matching Parenthesis
-#+BEGIN_SRC emacs-lisp
-(show-paren-mode 1)
-#+END_SRC
-
-** No bell sound
-#+BEGIN_SRC emacs-lisp
-(setq ring-bell-function 'ignore)
-#+END_SRC
-
-** [inactive] Show Relative Number Lines
-;#+BEGIN_SRC emacs-lisp
-;(setq display-line-numbers 'relative)
-;#+END_SRC
-
-
-
-
-
-
-* FILES AND FOLDER LOCATIONS
-
-** Backup and autosave
-#+BEGIN_SRC emacs-lisp
-(defvar backup-dir (expand-file-name "/Users/apollo/.emacs.d/emacs-backups/"))
-(defvar autosave-dir (expand-file-name "/Users/apollo/.emacs.d/emacs-autosave/"))
-(setq backup-directory-alist (list (cons ".*" backup-dir)))
-(setq auto-save-list-file-prefix autosave-dir)
-(setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
-#+END_SRC
-
-** Add theme directory
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-#+END_SRC
-
-** Default Startup Folder for C-x C-f
-#+BEGIN_SRC emacs-lisp
-(setq default-directory "~/Documents/project-emacs")
-#+END_SRC
-
-** IDO - Interactively Do Things
-Link:  https://www.emacswiki.org/emacs/InteractivelyDoThings
-
-#+BEGIN_SRC emacs-lisp
-(require 'ido)
-(ido-mode 1)
-(setq ido-everywhere t)
-(setq ido-enable-flex-matching t)
-(setq ido-enable-last-directory-history t)
-#+END_SRC
-
-** IDO - Ignore certain files
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'ido-ignore-files "emacs-personal-settings.el")
-(add-to-list 'ido-ignore-files ".pia_manager_crash.log")
-
-;Avoid certain directories:
-;(setq ido-ignore-directories '("Applications/" "Library/" "Movies/" "Music/" "Pictures/"))
-
-#+END_SRC
-
-
-
-
-
-* THEMES
+*** Backups
 :PROPERTIES:
-:ID:       42CD2A46-1A10-4794-A9A9-E6525F9BF410
+:ID:       A82344B5-BF7F-41CF-AB86-81A57A418C8E
 :END:
-** Fringe color
 #+BEGIN_SRC emacs-lisp
-(set-face-attribute 'fringe nil :background nil)
+(setq backup-directory-alist '(("." . "~/.emacs.d/emacs-backups")))
 #+END_SRC
 
-#+RESULTS:
+*** Autosave
+:PROPERTIES:
+:ID:       3121272F-4795-424F-A2A5-DC69EEA8A869
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/emacs-autosave/" t)))
+#+END_SRC
 
- 
- 
-** Theme Looper
+*** Save History
+:PROPERTIES:
+:ID:       DF323DA5-2792-4E47-B1CF-E737C2BF3529
+:END:
+From http://www.wisdomandwonder.com/wp-content/uploads/2014/03/C3F.html:
+#+BEGIN_SRC emacs-lisp
+(setq savehist-file "~/.emacs.d/emacs-save-history")
+(savehist-mode 1)
+(setq history-length t)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+(setq savehist-additional-variables
+      '(kill-ring
+	search-ring
+	regexp-search-ring))
+#+END_SRC
+
+** Visuals
+:PROPERTIES:
+:ID:       EC238FB1-0DF6-4517-82CA-DC9B86FE2BEA
+:END:
+*** Theme Looper
 :PROPERTIES:
 :ID:       55511E70-1AF7-40CB-BB0D-07EA69906A80
 :END:
@@ -198,162 +136,95 @@ Link: https://github.com/myTerminal/theme-looper
 (require 'theme-looper)
 (theme-looper-reset-themes-selection)
 (global-set-key (kbd "C-}") 'theme-looper-enable-next-theme)
-(theme-looper-set-favorite-themes '(modus-operandi modus-vivendi))
+(theme-looper-set-favorite-themes '(modus-vivendi modus-operandi zenburn))
 #+END_SRC
 
+*** Modeline - Show Time
+:PROPERTIES:
+:ID:       AC04A79C-4CB6-4943-A70A-E8E9E8A548D6
+:END:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c t") 'display-current-time)
 
+(defun display-current-time ()
+  (interactive)
+  (message (format-time-string "%Y-%m-%d %H:%M:%S")))
+#+END_SRC
 
+*** Set Fringe color
+:PROPERTIES:
+:ID:       E3B298E0-875A-4868-B920-07C6FC12B19A
+:END:
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'fringe nil :background nil)
+#+END_SRC
 
-** [inactive] Modus Theme Settings
+#+RESULTS:
 
-;#+begin_src emacs-lisp
-(use-package emacs
+*** Line spacing
+:PROPERTIES:
+:ID:       5572EFAD-792B-45DB-9F0B-E21890787792
+:END:
+#+BEGIN_SRC emacs-lisp
+;; `line-spacing' is nil by default, I change it from time to time
+(setq-default line-spacing 4)
+#+END_SRC
+
+*** Text Size Change
+:PROPERTIES:
+:ID:       757C9B19-08B2-4674-A7AB-6B1CA266DC5C
+:END:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+;(global-set-key (kbd "C-=") 'text-scale-adjust)
+#+END_SRC
+
+*** Moody and Keycast
+:PROPERTIES:
+:ID:       7148D7DD-5990-493B-A35F-037110F3CF18
+:END:
+Link: [[https://github.com/tarsius/keycast][Keycast]] 
+Link: [[https://github.com/tarsius/moody][Moody]]
+#+BEGIN_SRC emacs-lisp
+(use-package moody
+  :ensure)
+
+(use-package keycast
+  :ensure
+  :after moody
+  :commands keycast-mode
   :config
-  (setq custom-safe-themes t)           ; Due to my dev needs
+  (setq keycast-window-predicate 'moody-window-active-p)
+  (setq keycast-separator-width 1)
+  (setq keycast-insert-after 'mode-line-buffer-identification)
+  (setq keycast-remove-tail-elements nil))
 
-  ;; The variables do not reveal my preferences.  I am always testing
-  ;; things
-  (defun prot/modus-operandi ()
-    "Enable some Modus Operandi variables and load the theme.
-This is used internally by `prot/modus-themes-toggle'."
-    (setq modus-operandi-theme-slanted-constructs nil
-          modus-operandi-theme-bold-constructs nil
-          modus-operandi-theme-visible-fringes nil
-          modus-operandi-theme-3d-modeline t
-          modus-operandi-theme-subtle-diffs nil
-          modus-operandi-theme-distinct-org-blocks t
-          modus-operandi-theme-proportional-fonts nil
-          modus-operandi-theme-rainbow-headings nil
-          modus-operandi-theme-section-headings t
-          modus-operandi-theme-scale-headings t
-          modus-operandi-theme-scale-1 1.125
-          modus-operandi-theme-scale-2 1.266
-          modus-operandi-theme-scale-3 1.424
-          modus-operandi-theme-scale-4 1.602
-          modus-operandi-theme-scale-5 1.802)
-    ;;;; NOTE check the project's README for the following one.  Only
-    ;;;; for advanced usage.
-    ;; modus-operandi-theme-override-colors-alist
-    (load-theme 'modus-operandi t))
-
-  (defun prot/modus-vivendi ()
-    "Enable some Modus Vivendi variables and load the theme.
-This is used internally by `prot/modus-themes-toggle'."
-    (setq modus-vivendi-theme-slanted-constructs nil
-          modus-vivendi-theme-bold-constructs nil
-          modus-vivendi-theme-visible-fringes nil
-          modus-vivendi-theme-3d-modeline t
-          modus-vivendi-theme-subtle-diffs nil
-          modus-vivendi-theme-distinct-org-blocks t
-          modus-vivendi-theme-proportional-fonts nil
-          modus-vivendi-theme-rainbow-headings nil
-          modus-vivendi-theme-section-headings t
-          modus-vivendi-theme-scale-headings t
-          modus-vivendi-theme-scale-1 1.125
-          modus-vivendi-theme-scale-2 1.266
-          modus-vivendi-theme-scale-3 1.424
-          modus-vivendi-theme-scale-4 1.602
-          modus-vivendi-theme-scale-5 1.802)
-    ;;;; NOTE check the project's README for the following one.  Only
-    ;;;; for advanced usage.
-    ;; modus-vivendi-theme-override-colors-alist
-    (load-theme 'modus-vivendi t))
-
-  (defun prot/modus-themes-custom ()
-    "Override faces by accessing the theme colour variables.
-Run this via `contrib/after-load-theme-hook'."
-    (cond
-     ((eq (car custom-enabled-themes) 'modus-operandi)
-      (modus-operandi-theme-with-color-variables
-        (custom-theme-set-faces
-         'modus-operandi
-         `(cursor ((,class (:background ,blue-alt)))))))
-     ((eq (car custom-enabled-themes) 'modus-vivendi)
-      (modus-vivendi-theme-with-color-variables
-        (custom-theme-set-faces
-         'modus-vivendi
-         `(cursor ((,class (:background ,red-alt)))))))))
-
-  (defvar contrib/after-load-theme-hook nil
-    "Hook run after a color theme is loaded using `load-theme'.")
-
-  (defun contrib/run-after-load-theme-hook (&rest _)
-    "Run `contrib/after-load-theme-hook'."
-    (run-hooks 'contrib/after-load-theme-hook))
-
-  (advice-add #'load-theme :after #'contrib/run-after-load-theme-hook)
-
-  (defvar prot/modus-themes-toggle-hook nil
-    "Hook that runs after `prot/modus-themes-toggle' is invoked.")
-
-  (defun prot/modus-themes-toggle ()
-    "Toggle between `prot/modus-operandi' and `prot/modus-vivendi'.
-Also run `prot/modus-themes-toggle-hook'."
-    (interactive)
-    (if (eq (car custom-enabled-themes) 'modus-operandi)
-        (progn
-          (prot/modus-vivendi)
-          (disable-theme 'modus-operandi))
-      (prot/modus-operandi)
-      (disable-theme 'modus-vivendi))
-    (run-hooks 'prot/modus-themes-toggle-hook))
-
-  :bind ("C-}" . prot/modus-themes-toggle)
-  :hook ((after-init-hook . prot/modus-operandi)
-         (contrib/after-load-theme-hook . prot/modus-themes-custom)))
-;#+end_src
-
-
-* WINDOW MANAGEMENT
-
-** Enable Save Window Settings
-#+BEGIN_SRC emacs-lisp
-(desktop-save-mode 1)
+(keycast-mode 1)
 #+END_SRC
 
-** Windmove - Move between windows
-Source: Emacs built in function
-Info: https://www.emacswiki.org/emacs/WindMove
+** Editing
+:PROPERTIES:
+:ID:       DD093DE2-3A5B-41BF-8AFA-96CA76E4AF02
+:END:
+*** Multiple Cursor
+:PROPERTIES:
+:ID:       BA6F77B9-3820-481B-9CF1-C263CCC71FB2
+:END:
+Link: https://github.com/magnars/multiple-cursors.el
 #+BEGIN_SRC emacs-lisp
-;; Use CMD+arrows
-(windmove-default-keybindings 'super)
-;; Don't cycle around at edges (nil), enabled (t)
-(setq windmove-wrap-around nil)
+;; on error delete the content of: .mc-lists.el
+(require 'multiple-cursors)
+(global-set-key (kbd "M-m") 'mc/edit-lines)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+;(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 #+END_SRC
-
-** [inactive] Screen Position
-;#+BEGIN_SRC emacs-lisp
-(setq default-frame-alist '((left . 82) (top . 38) (width . 100) (height . 70)))
-;#+END_SRC
-
-** Window Splitting Keybindings
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<s-f1>") 'split-window-below)
-(global-set-key (kbd "<s-f2>") 'split-window-right)
-(global-set-key (kbd "<s-f3>") 'balance-windows)
-(global-set-key (kbd "<s-f4>") 'delete-other-windows)
-(global-set-key (kbd "<s-f5>") 'delete-window)
-#+END_SRC
-
-** Window Rotate
-Source: MELPA ('rotate')
-Link: https://github.com/daichirata/emacs-rotate/tree/091b5ac4fc310773253efb317e3dbe8e46959ba6
-#+BEGIN_SRC emacs-lisp
-(require 'rotate)
-(global-set-key (kbd "<s-f9>") 'rotate-window)
-(global-set-key (kbd "<s-f10>") 'rotate:even-horizontal)
-(global-set-key (kbd "<s-f11>") 'rotate-layout)
-(global-set-key (kbd "<s-f12>") 'rotate:tiled)
-#+END_SRC
-
-
-
-
-
-
-* EDITING
-
-** Olivetti Mode
+*** Olivetti Mode
+:PROPERTIES:
+:ID:       E87881A4-E9E1-4F3D-B936-0BF941CE8C43
+:END:
 Link: https://github.com/rnkn/olivetti
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
@@ -370,62 +241,268 @@ are disabled for the current window.  For the font-related
 changes see `prot/variable-pitch-mode'."
     (interactive)
     (if (bound-and-true-p olivetti-mode)
-        (progn
-          (olivetti-mode -1)
-          (set-window-fringes (selected-window) nil) ; Use default width
-          (prot/variable-pitch-mode))
+	(progn
+	  (olivetti-mode -1)
+	  (set-window-fringes (selected-window) nil) ; Use default width
+	  (prot/variable-pitch-mode))
       (olivetti-mode 1)
       (set-window-fringes (selected-window) 0 0)
       (prot/variable-pitch-mode (prot/reading-fonts))))
   :bind ("C-{" . prot/olivetti-mode))
 #+END_SRC
 
-** Multiple Cursor
-Link: https://github.com/magnars/multiple-cursors.el
+
+*** No Keystroke delay
+:PROPERTIES:
+:ID:       D35E8BA6-7BE9-47FD-988C-632B470AA089
+:END:
+;; The default is to wait 1 second, which I find a bit long
 #+BEGIN_SRC emacs-lisp
-;; on error delete the content of: .mc-lists.el
-(require 'multiple-cursors)
-(global-set-key (kbd "M-m") 'mc/edit-lines)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(setq echo-keystrokes 0.1)
 #+END_SRC
 
-** Autocomplete
+*** Global Visual Mode
+:PROPERTIES:
+:ID:       41B6AEFB-C561-4A5E-9EBC-C05BD050A606
+:END:
+#+BEGIN_SRC emacs-lisp
+(global-visual-line-mode t)
+#+END_SRC
+*** Column Wrapping at 80
+:PROPERTIES:
+:ID:       A988AEEC-22E9-446D-AB8D-94793C054F70
+:END:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c w") 'auto-fill-mode)
+(add-hook 'text-mode-hook 'auto-fill-mode)
+(setq-default fill-column 80)
+#+END_SRC
+
+*** Enter Source Code Block
+:PROPERTIES:
+:ID:       E1D38340-BFA5-49BA-9622-4683D57D6C6B
+:END:
+To set up: =C-h v org-structure-template-alist= =RET=
+
+*** Sentences end with a single space
+:PROPERTIES:
+:ID:       7DE565CD-9FFE-4FB5-8519-E0F9D2848E40
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq sentence-end-double-space nil)
+#+END_SRC
+
+*** Fill paragraphs with a single space after each period
+:PROPERTIES:
+:ID:       4211C2A9-2FDE-47D7-9152-37C016F58B12
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq sentence-end-double-space nil)
+#+END_SRC
+*** Disable All Upper/Lowercase
+:PROPERTIES:
+:ID:       094D6256-F20C-435C-9D66-307F178D658F
+:END:
+#+BEGIN_SRC emacs-lisp
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+#+END_SRC
+
+*** Pop to mark
+:PROPERTIES:
+:ID:       3A5D5118-F9B0-4E96-A9AE-2A977248B703
+:END:
+Handy way of getting back to previous places.
+#+BEGIN_SRC emacs-lisp
+(bind-key "C-x p" 'pop-to-mark-command)
+(setq set-mark-command-repeat-pop t)
+#+END_SRC
+
+*** Clean up spaces
+:PROPERTIES:
+:ID:       3BB85013-15FB-4AF7-BD67-FD3B56EF2313
+:END:
+#+BEGIN_SRC emacs-lisp
+(bind-key "M-SPC" 'cycle-spacing)
+#+END_SRC
+***   [inactive] Autocomplete
+:PROPERTIES:
+:ID:       51A1F658-E222-4341-BEDD-3D2072E4C180
+:END:
 Link: https://github.com/auto-complete/auto-complete
-#+BEGIN_SRC emacs-lisp
+;#+BEGIN_SRC emacs-lisp
 (ac-config-default)
+;#+END_SRC
+
+** File Management
+:PROPERTIES:
+:ID:       45724970-8126-40C1-95EC-9739E7EC2F75
+:END:
+*** Load Paths
+:PROPERTIES:
+:ID:       0A7FC05C-A4BF-4B67-AC3D-7814F190B87A
+:END:
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/additional-packages/")
+#+END_SRC
+*** Add theme directory
+:PROPERTIES:
+:ID:       09848B2A-9E57-402D-B684-6B553B696316
+:END:
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+#+END_SRC
+
+*** Default Startup Folder for Find
+:PROPERTIES:
+:ID:       D0EF848F-B00B-4503-AE9A-228C7A72CF6A
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq default-directory "~/Documents/project-emacs")
+#+END_SRC
+
+*** IDO Enable
+:PROPERTIES:
+:ID:       CD5C575F-33A1-4F30-AC9A-BBF10E2C4F95
+:END:
+Interactively Do Things
+Link:  https://www.emacswiki.org/emacs/InteractivelyDoThings
+#+BEGIN_SRC emacs-lisp
+(require 'ido)
+(ido-mode 1)
+(setq ido-everywhere t)
+(setq ido-enable-flex-matching t)
+(setq ido-enable-last-directory-history t)
+#+END_SRC
+
+*** IDO Ignore certain files
+:PROPERTIES:
+:ID:       A7DB82FD-0833-480A-A93B-C2E961929581
+:END:
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'ido-ignore-files "emacs-personal-settings.el")
+(add-to-list 'ido-ignore-files ".pia_manager_crash.log")
+(add-to-list 'ido-ignore-files "archive-todo.org")
+(add-to-list 'ido-ignore-files "archive-day.org")
+;Avoid certain directories:
+;(setq ido-ignore-directories '("Applications/" "Library/" "Movies/" "Music/" "Pictures/"))
 #+END_SRC
 
 
 
-
-
-
-* ORG MODE - GENERAL
-
-** Set maximum indentation for description lists
+*** Undo Tree mode
+:PROPERTIES:
+:ID:       8A0B89DE-CF45-4C21-9777-D4BDA81E0279
+:END:
 #+BEGIN_SRC emacs-lisp
-(setq org-list-description-max-indent 5)
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :config
+  (progn
+    (global-undo-tree-mode)
+    (setq undo-tree-visualizer-timestamps t)
+    (setq undo-tree-visualizer-diff t)))
 #+END_SRC
 
-** Prevent demoting heading also shifting text inside sections
+** Window Management
+:PROPERTIES:
+:ID:       52E57F9E-C7E1-48A6-A79C-AAA9E695257A
+:END:
+*** Enable Save Window Settings
+:PROPERTIES:
+:ID:       55352E1D-49EF-4CFC-8F8A-111ABB17285F
+:END:
 #+BEGIN_SRC emacs-lisp
-(setq org-adapt-indentation nil)
+(desktop-save-mode 1)
 #+END_SRC
 
-
-
-** Create Custom ID <f5> Copy to Clipboard <f6>
+*** Windmove - Move between windows
+:PROPERTIES:
+:ID:       3714BDEF-9BB2-4227-914B-4FBD6DDF6876
+:END:
+Source: Emacs built in function
+Info: https://www.emacswiki.org/emacs/WindMove
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<f5>") 'org-id-get-create)
+;; Use CMD+arrows
+(windmove-default-keybindings 'super)
+;; Don't cycle around at edges (nil), enabled (t)
+(setq windmove-wrap-around nil)
+#+END_SRC
+
+*** Window Splitting Keybindings
+:PROPERTIES:
+:ID:       843A2843-3822-43C5-8F86-630C1E8FFA9D
+:END:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<s-f1>") 'split-window-below)
+(global-set-key (kbd "<s-f2>") 'split-window-right)
+(global-set-key (kbd "<s-f3>") 'balance-windows)
+(global-set-key (kbd "<s-f4>") 'delete-other-windows)
+(global-set-key (kbd "<s-f5>") 'delete-window)
+#+END_SRC
+
+*** Window Rotate
+:PROPERTIES:
+:ID:       5F7E60D0-707A-4C06-B78B-38871461CB10
+:END:
+Source: MELPA ('rotate')
+Link: https://github.com/daichirata/emacs-rotate/tree/091b5ac4fc310773253efb317e3dbe8e46959ba6
+#+BEGIN_SRC emacs-lisp
+(require 'rotate)
+(global-set-key (kbd "<s-f12>") 'rotate-window)
+(global-set-key (kbd "<s-f11>") 'rotate:even-horizontal)
+(global-set-key (kbd "<s-f10>") 'rotate-layout)
+#+END_SRC
+
+***   [inactive] Screen Position
+:PROPERTIES:
+:ID:       8C673727-3978-4CC8-9A53-4931FBAE669A
+:END:
+;#+BEGIN_SRC emacs-lisp
+(setq default-frame-alist '((left . 82) (top . 38) (width . 100) (height . 70)))
+;#+END_SRC
+
+** Org mode
+:PROPERTIES:
+:ID:       6FB0A6E3-D81F-4566-9FB8-CA518F2FFE5A
+:END:
+*** Set org directory
+:PROPERTIES:
+:ID:       1CB91A5B-429C-41B5-A032-76EA4D804BF8
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/Documents/project-emacs")
+#+END_SRC
+
+*** Agenda Starting my weeks on Monday
+:PROPERTIES:
+:ID:       1F1C7119-1F01-4573-B2CF-CE8F41BF4381
+:END:
+#+begin_src emacs-lisp
+(setq org-agenda-start-on-weekday 1)
+#+end_src
+
+*** Custom ID - Generate to all headers when saving
+:PROPERTIES:
+:ID:       2556324E-B676-4B13-8FB7-1452B89C5AF7
+:END:
+#+BEGIN_SRC emacs-lisp
+ (defun my/org-add-ids-to-headlines-in-file ()
+  "Add ID properties to all headlines in the current file which
+do not already have one."
+  (interactive)
+  (org-map-entries 'org-id-get-create))
+
+(add-hook 'org-mode-hook
+	  (lambda ()
+	    (add-hook 'before-save-hook 'my/org-add-ids-to-headlines-in-file nil 'local)))
+
 
 (defun my/copy-id-to-clipboard() "Copy the ID property value to killring,
-if no ID is there then create a new unique ID. 
+if no ID is there then create a new unique ID.
 This function works only in org-mode buffers.
 
-The purpose of this function is to easily construct id:-links to 
+The purpose of this function is to easily construct id:-links to
 org-mode items. If its assigned to a key it saves you marking the
 text and copying to the killring."
        (interactive)
@@ -439,23 +516,145 @@ text and copying to the killring."
 #+END_SRC
 - Source Code: [[https://koenig-haunstetten.de/2016/07/09/code-snippet-for-orgmode-e05s02/][Link]]
 
-** [inactive] Add Custom ID to all headers when saving
-;#+BEGIN_SRC emacs-lisp
-(defun my/org-add-ids-to-headlines-in-file ()
-  "Add ID properties to all headlines in the current file which
-do not already have one."
-  (interactive)
-  (org-map-entries 'org-id-get-create))
+*** Custom ID - Location refresh
+:PROPERTIES:
+:ID:       BA09FDE7-F88A-47D5-9B75-657E87509FB7
+:END:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<s-f6>") 'org-id-update-id-locations)
+#+END_SRC
+*** Calendar Starting with Monday
+:PROPERTIES:
+:ID:       E7E38778-9853-4747-82D5-1E35EB6A8C79
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq calendar-week-start-day 1)
+#+END_SRC
 
-(add-hook 'org-mode-hook
-          (lambda ()
-            (add-hook 'before-save-hook 'my/org-add-ids-to-headlines-in-file nil 'local)))
+*** Keywords colors
+:PROPERTIES:
+:ID:       1FF6D22E-5A25-4098-8E89-D1CE61CD3869
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "#3a70af" :weight bold)
+	      ("NEXT" :foreground "#cc0000" :weight bold)
+	      ("DONE" :foreground "#00994d" :weight bold)
+	      ("WAITING" :foreground "#ff8833" :weight bold)
+	      ("HOLD" :foreground "#ff8833" :weight bold)
+	      ("CANCELLED" :foreground "#177a21" :weight bold))))
+#+END_SRC
+
+*** org-mode is default for '.org' files
+:PROPERTIES:
+:ID:       AD9A01CC-416F-442E-A37E-D21572484630
+:END:
+Hansen Link: http://doc.norang.ca/org-mode.html#HowToUseThisDocument
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.\\(org\\)$" . org-mode))
+(require 'org)
+#+END_SRC
+
+*** Open Agenda
+:PROPERTIES:
+:ID:       D3BDC0E2-5936-4D54-A5E7-C2E0557A494D
+:END:
+Notes:
+- If the agenda is not showing up then: 'C-c ['
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\C-ca" 'org-agenda)
+#+END_SRC
+
+*** Quick Status Change (C-c C-t)
+:PROPERTIES:
+:ID:       A1390D35-5542-4E7E-908F-01670E5320C3
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq org-use-fast-todo-selection t)
+#+END_SRC
+
+*** Capture mode: C-c c
+:PROPERTIES:
+:ID:       2BAE8F17-4508-4F8D-920D-2BEBA74D2803
+:END:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c c") 'org-capture)
+#+END_SRC
+
+*** List of Agenda files to be scanned
+:PROPERTIES:
+:ID:       2A9D5431-FF06-47FA-A9E3-970F7790AC58
+:END:
+Notes:
+- If the agenda is not showing up then: 'C-c ['
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-files (list "~/Documents/project-emacs"))
+#+END_SRC
+
+*** Document reference link management
+:PROPERTIES:
+:ID:       B1A31802-7941-48DB-A662-30E96CAE2314
+:END:
+;; To copy the link: C-a l
+;; To paste the link: C-a C-l
+;; To open a link: C-a C-o
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\C-cl" 'org-store-link)
+#+END_SRC
+
+*** Major mode is org mode
+:PROPERTIES:
+:ID:       04104E07-5E71-4191-8AAF-AA05398C56F3
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq initial-major-mode 'org-mode)
+#+END_SRC
+
+*** Add custom colors to A/B/C categories
+:PROPERTIES:
+:ID:       68285B41-8F23-42C5-A9AA-6F635E15CF6D
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq org-priority-faces '((?A . (:foreground "red" :weight 'bold))
+			   (?B . (:foreground "orange"))
+			   (?C . (:foreground "blue"))))
+#+END_SRC
+
+***  ? Set maximum indentation for description lists
+:PROPERTIES:
+:ID:       A2DFD6F1-C479-44C9-B5F2-A162B4984A06
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq org-list-description-max-indent 5)
+#+END_SRC
+
+***  ? Prevent demoting heading also shifting text inside sections
+:PROPERTIES:
+:ID:       936DAEDE-73CC-4538-AF80-2D9EB2C66FA8
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq org-adapt-indentation nil)
+#+END_SRC
+***  [inactive] Custom ID - Unique
+:PROPERTIES:
+:ID:       9B0027AB-78C8-4CF5-8986-4E14F996EA28
+:END:
+Notes:
+Keyboard shortcut:
+- Enable: <f5>
+- Copy to Clipboard <f6>
+If the links are not working properly then use the below command:
+=M-x org-id-update-id-locations=
+- Source Code: [[https://koenig-haunstetten.de/2016/07/09/code-snippet-for-orgmode-e05s02/][Link]]
+
+;#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<f5>") 'org-id-get-create)
 
 (defun my/copy-id-to-clipboard() "Copy the ID property value to killring,
-if no ID is there then create a new unique ID. 
+if no ID is there then create a new unique ID.
 This function works only in org-mode buffers.
 
-The purpose of this function is to easily construct id:-links to 
+The purpose of this function is to easily construct id:-links to
 org-mode items. If its assigned to a key it saves you marking the
 text and copying to the killring."
        (interactive)
@@ -465,90 +664,14 @@ text and copying to the killring."
 	 (message "Copied %s to killring (clipboard)" mytmpid)
        ))
 
-(global-set-key (kbd "<f5>") 'my/copy-id-to-clipboard)
+(global-set-key (kbd "<f6>") 'my/copy-id-to-clipboard)
 ;#+END_SRC
-- Source Code: [[https://koenig-haunstetten.de/2016/07/09/code-snippet-for-orgmode-e05s02/][Link]]
 
-** [inactive] Add custom colors to A/B/C categories
+***  [inactive] State change Tag triggers
+:PROPERTIES:
+:ID:       3B9D1D22-CC33-4D4A-A07C-5D33984C5357
+:END:
 ;#+BEGIN_SRC emacs-lisp
-(setq org-priority-faces '((?A . (:foreground "red" :weight 'bold))
-                           (?B . (:foreground "orange"))
-                           (?C . (:foreground "blue"))))
-;#+END_SRC
-
-
-
-
-* ORG MODE - BERNT HANSEN SETTINGS
-    
-** Hansen Link
-http://doc.norang.ca/org-mode.html#HowToUseThisDocument
-
-** Set org directory
-#+BEGIN_SRC emacs-lisp
-(setq org-directory "~/Documents/project-emacs")
-#+END_SRC
-
-** org-mode is default for '.org' files
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.\\(org\\)$" . org-mode))
-(require 'org)
-#+END_SRC
-
-** Document reference link management
-;; To copy the link: C-a l
-;; To paste the link: C-a C-l
-;; To open a link: C-a C-o
-#+BEGIN_SRC emacs-lisp
-(global-set-key "\C-cl" 'org-store-link)
-#+END_SRC
-
-** Open Agenda
-#+BEGIN_SRC emacs-lisp
-(global-set-key "\C-ca" 'org-agenda)
-#+END_SRC
-
-** List of Agenda files to be scanned
-#+BEGIN_SRC emacs-lisp
-(setq org-agenda-files (list "~/Documents/project-emacs"))
-#+END_SRC
-- If the agenda is not showing up then: 'C-c ['
-
-** Keywords colors
-#+BEGIN_SRC emacs-lisp
-(setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "#3a70af" :weight bold)
-              ("NEXT" :foreground "#cc0000" :weight bold)
-              ("DONE" :foreground "#00994d" :weight bold)
-              ("WAITING" :foreground "#ff8833" :weight bold)
-              ("HOLD" :foreground "#ff8833" :weight bold)
-              ("CANCELLED" :foreground "#177a21" :weight bold))))
-#+END_SRC
-
-** Fast todo status change (C-c C-t)
-#+BEGIN_SRC emacs-lisp
-(setq org-use-fast-todo-selection t)
-#+END_SRC
-
-** Capture mode: C-c c
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c c") 'org-capture)
-#+END_SRC
-
-** [inactive] Set default inbox file
-;#+BEGIN_SRC emacs-lisp
-(setq org-default-notes-file "~/Documents/project-emacs/inbox.org")
-;#+END_SRC
-
-** [inactive] Keywords structure
-;#+BEGIN_SRC emacs-lisp
-(setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
-;#+END_SRC
-
-** [inactive] State change Tag triggers
-l#+BEGIN_SRC emacs-lisp
 Moving a task to CANCELLED adds a CANCELLED tag
 Moving a task to WAITING adds a WAITING tag
 Moving a task to HOLD adds WAITING and HOLD tags
@@ -558,26 +681,90 @@ Moving a task to NEXT removes WAITING, CANCELLED, and HOLD tags
 Moving a task to DONE removes WAITING, CANCELLED, and HOLD tags
 (setq org-todo-state-tags-triggers
       (quote (("CANCELLED" ("CANCELLED" . t))
-              ("WAITING" ("WAITING" . t))
-              ("HOLD" ("WAITING") ("HOLD" . t))
-              (done ("WAITING") ("HOLD"))
-              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+	      ("WAITING" ("WAITING" . t))
+	      ("HOLD" ("WAITING") ("HOLD" . t))
+	      (done ("WAITING") ("HOLD"))
+	      ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+	      ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+	      ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 ;#+END_SRC
 
 
+* TESTING
+:PROPERTIES:
+:ID:       66699DB3-9834-4009-9709-BC5429268113
+:END:
+** Links to learn from
+  :PROPERTIES:
+  :CUSTOM_ID: links
+  :ID:       130F227F-66CA-41E5-97C8-2A068124FCD6
+  :END:
+  <<links>>
+
+- [[http://doc.norang.ca/org-mode.html][Bernt Hansen]]: Lots of Org-related config. I picked up the graph-drawing stuff from this.
+- [[https://github.com/bzg/dotemacs][Bastien Guerry]]: Org, Gnus, ERC - Explained in this [[http://sachachua.com/blog/2013/05/emacs-chat-bastien-guerry/][Emacs Chat (~1h)]]
+- [[https://github.com/iani/emacs-prelude][Iannis Zannos]]: Explained in this [[https://www.youtube.com/watch?v=0F8aCbC9z3A][Emacs Chat (~1h)]]
+- [[https://github.com/magnars/.emacs.d][Magnar Sveen]]: http://whattheemacsd.com/ has some explanations. [[http://sachachua.com/blog/2013/11/emacs-chat-magnar-sveen-emacs-rocks/][Emacs Chat (~1h)]]
+- [[https://github.com/jwiegley/dot-emacs][John Wiegley]]: Also see his [[http://www.youtube.com/watch?v=RvPFZL6NJNQ][Emacs Lisp Development talk]] (sorry, sucky video) and [[http://www.youtube.com/watch?v=ytNsHmRLZGM][Emacs Chat video]]
 
 
 
-
-
-
-
-
-
-
-
+** Tasks
+:PROPERTIES:
+:ID:       FEF9D145-D25D-4A44-A49D-7DD2736EB783
+:END:
+*** TODO [#A] do this today
+SCHEDULED: <2015-12-08 Tue>
+:PROPERTIES:
+:ID:       2F46C62B-22D1-44F5-A393-857A3D1740DA
+:END:
+*** TODO [#A] do this tomorrow
+SCHEDULED: <2015-12-09 Wed>
+:PROPERTIES:
+:ID:       B1B0570B-F56F-4F53-A97E-374D78402BCB
+:END:
+*** TODO [#A] this task is not scheduled
+:PROPERTIES:
+:ID:       71D42C80-0385-4CD0-A4E6-8583311ECAD2
+:END:
+*** TODO [#B] scheduled for today, priority B
+SCHEDULED: <2015-12-08 Tue>
+:PROPERTIES:
+:ID:       486DDACE-C981-476B-9789-CCFE7512F408
+:END:
+*** TODO [#A] scheduled today and deadline in 2 days
+DEADLINE: <2015-12-10 Thu> SCHEDULED: <2015-12-08 Tue>
+:PROPERTIES:
+:ID:       2A187694-92C4-4A4F-A303-6EAD7ECB1F9B
+:END:
+*** TODO [#A] deadline in 2 days and not scheduled
+DEADLINE: <2015-12-10 Thu>
+:PROPERTIES:
+:ID:       389AFBD0-5780-4240-A6CF-471E4B8C8CD9
+:END:
+*** TODO [#A] scheduled for monday
+SCHEDULED: <2015-12-14 Mon>
+:PROPERTIES:
+:ID:       E26A0A92-58D5-4839-A935-5D6026951E68
+:END:
+*** TODO [#C] do this today if I get time
+SCHEDULED: <2015-12-08 Tue>
+:PROPERTIES:
+:ID:       9ACA179A-9C09-44CB-A16C-496555F886F7
+:END:
+*** TODO [#B] neither is this one
+:PROPERTIES:
+:ID:       00610DA2-97B3-407A-A4B9-92FB1C0993C8
+:END:
+*** TODO [#C] or this one
+:PROPERTIES:
+:ID:       A3FDF9F0-B7B4-4806-A94E-323FFED8C15E
+:END:
+*** TODO [#A] deadline in 10 days and not scheduled
+DEADLINE: <2015-12-18 Fri>
+:PROPERTIES:
+:ID:       B9435207-9583-4640-BA12-05000DECD6AE
+:END:
 
 
 
