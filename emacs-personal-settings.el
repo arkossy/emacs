@@ -40,13 +40,25 @@
 (require 'theme-looper)
 (theme-looper-reset-themes-selection)
 (global-set-key (kbd "C-}") 'theme-looper-enable-next-theme)
-(theme-looper-set-favorite-themes '(modus-vivendi modus-operandi zenburn))
+(theme-looper-set-favorite-themes '(modus-vivendi modus-operandi))
 
-(global-set-key (kbd "C-c t") 'display-current-time)
+; Set 24h format
+(setq display-time-24hr-format t)
 
-(defun display-current-time ()
-  (interactive)
-  (message (format-time-string "%Y-%m-%d %H:%M:%S")))
+; Set display format (to show date: %Y-%m-%d)
+(setq display-time-format "[%H:%M]")
+
+; Don't show the load time (x.x format)
+(setq display-time-default-load-average nil)
+
+; Show time in mode line
+(display-time-mode 1)
+
+; Align time display to the right side of the mode line
+   (setq global-mode-string (remove 'display-time-string global-mode-string))
+   (setq mode-line-end-spaces
+         (list (propertize " " 'display '(space :align-to (- right 8)))
+               'display-time-string))
 
 (set-face-attribute 'fringe nil :background nil)
 
@@ -203,18 +215,20 @@ text and copying to the killring."
 
 (setq calendar-week-start-day 1)
 
-(setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "#3a70af" :weight bold)
-	      ("NEXT" :foreground "#cc0000" :weight bold)
-	      ("DONE" :foreground "#00994d" :weight bold)
-	      ("WAITING" :foreground "#ff8833" :weight bold)
-	      ("HOLD" :foreground "#ff8833" :weight bold)
-	      ("CANCELLED" :foreground "#177a21" :weight bold))))
-
 (add-to-list 'auto-mode-alist '("\\.\\(org\\)$" . org-mode))
 (require 'org)
 
 (global-set-key "\C-ca" 'org-agenda)
+
+(setq org-hierarchical-todo-statistics nil)
+
+;Demote sequence for list bullets
+(setq org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+")))
+
+;; Increase sub-item indentation
+(setq org-list-indent-offset 1)
+
+(setq org-catch-invisible-edits 'show-and-error)
 
 (setq org-use-fast-todo-selection t)
 

@@ -136,7 +136,7 @@ Link: https://github.com/myTerminal/theme-looper
 (require 'theme-looper)
 (theme-looper-reset-themes-selection)
 (global-set-key (kbd "C-}") 'theme-looper-enable-next-theme)
-(theme-looper-set-favorite-themes '(modus-vivendi modus-operandi zenburn))
+(theme-looper-set-favorite-themes '(modus-vivendi modus-operandi))
 #+END_SRC
 
 *** Modeline - Show Time
@@ -144,11 +144,23 @@ Link: https://github.com/myTerminal/theme-looper
 :ID:       AC04A79C-4CB6-4943-A70A-E8E9E8A548D6
 :END:
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c t") 'display-current-time)
+; Set 24h format
+(setq display-time-24hr-format t)
 
-(defun display-current-time ()
-  (interactive)
-  (message (format-time-string "%Y-%m-%d %H:%M:%S")))
+; Set display format (to show date: %Y-%m-%d)
+(setq display-time-format "[%H:%M]")
+
+; Don't show the load time (x.x format)
+(setq display-time-default-load-average nil)
+
+; Show time in mode line
+(display-time-mode 1)
+
+; Align time display to the right side of the mode line
+   (setq global-mode-string (remove 'display-time-string global-mode-string))
+   (setq mode-line-end-spaces
+         (list (propertize " " 'display '(space :align-to (- right 8)))
+               'display-time-string))
 #+END_SRC
 
 *** Set Fringe color
@@ -184,7 +196,7 @@ Link: https://github.com/myTerminal/theme-looper
 :PROPERTIES:
 :ID:       7148D7DD-5990-493B-A35F-037110F3CF18
 :END:
-Link: [[https://github.com/tarsius/keycast][Keycast]] 
+Link: [[https://github.com/tarsius/keycast][Keycast]]
 Link: [[https://github.com/tarsius/moody][Moody]]
 #+BEGIN_SRC emacs-lisp
 (use-package moody
@@ -389,7 +401,6 @@ Link:  https://www.emacswiki.org/emacs/InteractivelyDoThings
 #+END_SRC
 
 
-
 *** Undo Tree mode
 :PROPERTIES:
 :ID:       8A0B89DE-CF45-4C21-9777-D4BDA81E0279
@@ -531,19 +542,19 @@ text and copying to the killring."
 (setq calendar-week-start-day 1)
 #+END_SRC
 
-*** Keywords colors
+***   [inactive] Keywords colors
 :PROPERTIES:
 :ID:       1FF6D22E-5A25-4098-8E89-D1CE61CD3869
 :END:
-#+BEGIN_SRC emacs-lisp
-(setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "#3a70af" :weight bold)
-	      ("NEXT" :foreground "#cc0000" :weight bold)
-	      ("DONE" :foreground "#00994d" :weight bold)
-	      ("WAITING" :foreground "#ff8833" :weight bold)
-	      ("HOLD" :foreground "#ff8833" :weight bold)
-	      ("CANCELLED" :foreground "#177a21" :weight bold))))
-#+END_SRC
+;#+BEGIN_SRC emacs-lisp
+;(setq org-todo-keyword-faces
+;      (quote (("TODO" :foreground "#3a70af" :weight bold)
+;	      ("NEXT" :foreground "#cc0000" :weight bold)
+;	      ("DONE" :foreground "#00994d" :weight bold)
+;	      ("WAITING" :foreground "#ff8833" :weight bold)
+;	      ("HOLD" :foreground "#ff8833" :weight bold)
+;	      ("CANCELLED" :foreground "#177a21" :weight bold))))
+;#+END_SRC
 
 *** org-mode is default for '.org' files
 :PROPERTIES:
@@ -563,6 +574,35 @@ Notes:
 - If the agenda is not showing up then: 'C-c ['
 #+BEGIN_SRC emacs-lisp
 (global-set-key "\C-ca" 'org-agenda)
+#+END_SRC
+
+*** Set Hierarchical ToDo Counting
+:PROPERTIES:
+:ID:       C737ABCF-82DD-4851-A1DA-69EBDA0A59D4
+:END:
+Link: [[https://yiufung.net/post/org-mode-hidden-gems-pt4/][Yiu Fung]]
+#+BEGIN_SRC emacs-lisp
+(setq org-hierarchical-todo-statistics nil)
+#+END_SRC
+
+*** Org Bullet Behaviour
+:PROPERTIES:
+:ID:       399CECD3-12A7-45B6-8D6E-7867805E05F4
+:END:
+#+BEGIN_SRC emacs-lisp
+;Demote sequence for list bullets
+(setq org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+")))
+
+;; Increase sub-item indentation
+(setq org-list-indent-offset 1)
+#+END_SRC
+*** Avoid inadvertent text edit in invisible area
+    :PROPERTIES:
+    :ID:       CDD2CEE8-2D88-4446-81CC-3D54EE89CE6C
+    :END:
+Link: [[https://yiufung.net/post/org-mode-hidden-gems-pt1/][Yiu Fung]]
+#+BEGIN_SRC emacs-lisp
+(setq org-catch-invisible-edits 'show-and-error)
 #+END_SRC
 
 *** Quick Status Change (C-c C-t)
@@ -690,39 +730,35 @@ Moving a task to DONE removes WAITING, CANCELLED, and HOLD tags
 ;#+END_SRC
 
 
+
+
+
+
+
+
+
 * TESTING
 :PROPERTIES:
 :ID:       66699DB3-9834-4009-9709-BC5429268113
 :END:
-** Links to learn from
-  :PROPERTIES:
-  :CUSTOM_ID: links
-  :ID:       130F227F-66CA-41E5-97C8-2A068124FCD6
-  :END:
-  <<links>>
-
-- [[http://doc.norang.ca/org-mode.html][Bernt Hansen]]: Lots of Org-related config. I picked up the graph-drawing stuff from this.
-- [[https://github.com/bzg/dotemacs][Bastien Guerry]]: Org, Gnus, ERC - Explained in this [[http://sachachua.com/blog/2013/05/emacs-chat-bastien-guerry/][Emacs Chat (~1h)]]
-- [[https://github.com/iani/emacs-prelude][Iannis Zannos]]: Explained in this [[https://www.youtube.com/watch?v=0F8aCbC9z3A][Emacs Chat (~1h)]]
-- [[https://github.com/magnars/.emacs.d][Magnar Sveen]]: http://whattheemacsd.com/ has some explanations. [[http://sachachua.com/blog/2013/11/emacs-chat-magnar-sveen-emacs-rocks/][Emacs Chat (~1h)]]
-- [[https://github.com/jwiegley/dot-emacs][John Wiegley]]: Also see his [[http://www.youtube.com/watch?v=RvPFZL6NJNQ][Emacs Lisp Development talk]] (sorry, sucky video) and [[http://www.youtube.com/watch?v=ytNsHmRLZGM][Emacs Chat video]]
 
 
-
-** Tasks
+** ToDo Structure
 :PROPERTIES:
-:ID:       FEF9D145-D25D-4A44-A49D-7DD2736EB783
+:ID:       382461CC-B7E6-4D03-BF92-ED723D5A7F70
 :END:
 *** TODO [#A] do this today
 SCHEDULED: <2015-12-08 Tue>
 :PROPERTIES:
 :ID:       2F46C62B-22D1-44F5-A393-857A3D1740DA
 :END:
+
 *** TODO [#A] do this tomorrow
 SCHEDULED: <2015-12-09 Wed>
 :PROPERTIES:
 :ID:       B1B0570B-F56F-4F53-A97E-374D78402BCB
 :END:
+
 *** TODO [#A] this task is not scheduled
 :PROPERTIES:
 :ID:       71D42C80-0385-4CD0-A4E6-8583311ECAD2
@@ -768,3 +804,28 @@ DEADLINE: <2015-12-18 Fri>
 
 
 
+
+
+** Links to learn from
+  :PROPERTIES:
+  :CUSTOM_ID: links
+  :ID:       130F227F-66CA-41E5-97C8-2A068124FCD6
+  :END:
+  <<links>>
+
+- [[http://doc.norang.ca/org-mode.html][Bernt Hansen]]: Lots of Org-related config. I picked up the graph-drawing stuff from this.
+- [[https://github.com/bzg/dotemacs][Bastien Guerry]]: Org, Gnus, ERC - Explained in this [[http://sachachua.com/blog/2013/05/emacs-chat-bastien-guerry/][Emacs Chat (~1h)]]
+- [[https://github.com/iani/emacs-prelude][Iannis Zannos]]: Explained in this [[https://www.youtube.com/watch?v=0F8aCbC9z3A][Emacs Chat (~1h)]]
+- [[https://github.com/magnars/.emacs.d][Magnar Sveen]]: http://whattheemacsd.com/ has some explanations. [[http://sachachua.com/blog/2013/11/emacs-chat-magnar-sveen-emacs-rocks/][Emacs Chat (~1h)]]
+- [[https://github.com/jwiegley/dot-emacs][John Wiegley]]: Also see his [[http://www.youtube.com/watch?v=RvPFZL6NJNQ][Emacs Lisp Development talk]] (sorry, sucky video) and [[http://www.youtube.com/watch?v=ytNsHmRLZGM][Emacs Chat video]]
+
+  
+
+
+
+
+
+
+
+
+REMOVE ARCHIVE FILES
